@@ -1,0 +1,419 @@
+
+
+
+/*Estadisticas */
+
+
+/*Personas por edad*/
+/*0-18*/
+    select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 0 and 18;
+
+/*19-30*/ 
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 18 and 30;
+
+/*30-45*/ 
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 30 and 45;
+
+/*46-55*/ 
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 46 and 55;
+
+/*55-65*/ 
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 55 and 65;
+
+/*66-75*/
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 65 and 75;
+
+/*76-85*/ 
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 76 and 85 ;
+
+/*85 plus*/
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 85 and 300;
+    
+/*Total de comercios afiliados*/
+
+
+select tpc.nombre, info.cnt
+	from( 
+		select idTipo, count(idTipo) cnt
+		from comercio 
+		group by idTipo
+    ) info
+    inner join tipoComercio tpc 
+    on tpc.idtipoComercio = info.idTipo; 
+
+
+/*Total de productos */
+	select  pt.nombre,info.ct
+    from(
+		select id_producto pr, sum(cantidad) ct
+		from canje
+		where year(sysdate()) = year(fecha) and month(sysdate())  = month (fecha) /*cambiar sysdate*/
+	) info 
+    inner join producto  pt
+    on pt.idProducto =  info.pr;
+	
+
+/*Top 5 de los usuarios*/
+
+	select usuario, (puntos+puntosCanjeados) cnt
+    from usuario
+	order by cnt 
+    limit 5;
+    
+
+
+/*----------------------------------------Procedures estadisticas ------------------------------------------------------*/
+
+
+	
+
+/*1. Edades personas */
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg018personas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg018personas` ()
+BEGIN
+	 select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 0 and 18;
+END$$
+
+DELIMITER ;
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg1830personas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg1830personas` ()
+BEGIN
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 18 and 30;
+END$$
+
+DELIMITER ;
+
+
+
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg3045personas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg3045personas` ()
+BEGIN
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 30 and 45;
+END$$
+
+DELIMITER ;
+
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg4655personas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg4655personas` ()
+BEGIN
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 46 and 55;
+
+END$$
+DELIMITER ;
+
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg5565personas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg5565personas` ()
+BEGIN
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 55 and 65;
+END$$
+
+DELIMITER ;
+
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg6575personas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg6575personas` ()
+BEGIN
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 65 and 75;
+END$$
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg7685personas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg7685personas` ()
+BEGIN
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 76 and 85;
+END$$
+
+
+DELIMITER ;
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mg85pluspersonas`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mg85pluspersonas` ()
+BEGIN
+	select sum(edades.cnt)
+	from(
+		select info.edad age, count(info.edad) cnt
+		from (
+			 select year(sysdate()) -year(fechaNac) edad
+			 from persona
+		)info
+		group by age
+	) edades
+    where edades.age between 85 and 300;
+END$$
+
+DELIMITER ;
+
+
+
+
+
+
+
+/* 2. Total de comercios afiliados agrupados por tipo de comercio*/
+USE `reciclaje`;
+DROP procedure IF EXISTS `mgtipoCentro`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mgtipoCentro` ()
+BEGIN
+	select tpc.nombre, info.cnt
+	from( 
+		select idTipo, count(idTipo) cnt
+		from comercio 
+		group by idTipo
+    ) info
+    inner join tipoComercio tpc 
+    on tpc.idtipoComercio = info.idTipo; 
+END$$
+
+DELIMITER ;
+
+
+
+
+
+/* 3. Total de productos canjeados*/
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mgproductosCanjeados`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mgproductosCanjeados` (in ano int, in mes int)
+BEGIN
+	select  pt.nombre,info.ct
+    from(
+		select id_producto pr, sum(cantidad) ct
+		from canje
+		where ano = year(fecha) and mes = month (fecha) 
+        group by id_producto
+        
+	) info 
+    inner join producto  pt
+    on pt.idProducto =  info.pr;
+
+END$$
+
+DELIMITER ;
+
+
+
+/*4. Top 5 usuarios*/
+
+USE `reciclaje`;
+DROP procedure IF EXISTS `mgtop5usuarios`;
+
+DELIMITER $$
+USE `reciclaje`$$
+CREATE PROCEDURE `mgtop5usuarios` ()
+BEGIN
+	select usuario, (puntos+puntosCanjeados) cnt
+    from usuario
+	order by cnt 
+    limit 5;
+END$$
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
